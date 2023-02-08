@@ -1,7 +1,6 @@
 pub use biscuit::errors::Error as Jose;
 pub use inth_oauth2::ClientError as Oauth;
 pub use reqwest::Error as Http;
-pub use reqwest::UrlError as Url;
 pub use serde_json::Error as Json;
 
 use failure::Fail;
@@ -14,8 +13,8 @@ pub enum Error {
     Oauth(#[fail(cause)] Oauth),
     #[fail(display = "{}", _0)]
     Http(#[fail(cause)] Http),
-    #[fail(display = "{}", _0)]
-    Url(#[fail(cause)] Url),
+    // Url(#[fail(cause)] Url),
+    //#[fail(display = "{}", _0)]
     #[fail(display = "{}", _0)]
     Json(#[fail(cause)] Json),
     #[fail(display = "{}", _0)]
@@ -25,7 +24,7 @@ pub enum Error {
     #[fail(display = "{}", _0)]
     Userinfo(#[fail(cause)] Userinfo),
     #[fail(display = "Url must use TLS: '{}'", _0)]
-    Insecure(::reqwest::Url),
+    Insecure(reqwest::Url),
     #[fail(display = "Scope must contain Openid")]
     MissingOpenidScope,
     #[fail(display = "Url: Path segments is cannot-be-a-base")]
@@ -46,7 +45,7 @@ from!(Jose);
 from!(Json);
 from!(Oauth);
 from!(Http);
-from!(Url);
+//from!(Url);
 from!(Decode);
 from!(Validation);
 from!(Userinfo);
@@ -105,9 +104,9 @@ pub enum Missing {
 #[derive(Debug, Fail)]
 pub enum Expiry {
     #[fail(display = "Token expired at: {}", _0)]
-    Expires(::chrono::naive::NaiveDateTime),
+    Expires(chrono::naive::NaiveDateTime),
     #[fail(display = "Token is too old: {}", _0)]
-    MaxAge(::chrono::Duration),
+    MaxAge(chrono::Duration),
 }
 
 #[derive(Debug, Fail)]

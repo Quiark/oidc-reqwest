@@ -37,7 +37,7 @@ pub fn yahoo() -> Url {
 #[cfg(test)]
 mod tests {
     use crate::discovery::discover;
-    use reqwest::Client;
+    use reqwest::blocking::Client;
 
     macro_rules! test {
         ($issuer:ident) => {
@@ -57,7 +57,7 @@ mod tests {
 
     #[test]
     fn microsoft_tenant() {
-        let client = ::reqwest::Client::new();
-        crate::discovery::discover(&client, super::microsoft_tenant("common")).unwrap();
+        let client = Client::new();
+        discover(&client, super::microsoft_tenant("common")).unwrap();
     }
 }
